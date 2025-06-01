@@ -16,3 +16,5 @@ class PenyewaanFactory extends Factory
   {
   }
 }
+
+//code
