@@ -1,36 +1,43 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use App\Models\{User, Lapangan, Penyewaan};
-use Illuminate\Database\Seeder;
-
-class DatabaseSeeder extends Seeder
+class CreateUsersTable extends Migration
 {
-  /**
-   * Seed the application's database.
-   *
-   * @return void
-   */
-  public function run()
-  {
-    User::factory(3)->create();
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('username')->unique();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
 
-    User::factory(1)->create([
-      'username' => 'hecker',
-      'name' => 'hecker',
-      'email' => 'hecker@gmail.com',
-      'role' => 2
-    ]);
+            // ROLE
 
-    User::factory(1)->create([
-      'username' => 'admin',
-      'name' => 'icall',
-      'email' => 'admin@gmai.com',
-      'role' => 1
-    ]);
+            // 1. Admin
+            // 2. Customer
 
-    Lapangan::factory(20)->create();
-    Penyewaan::factory(20)->create();
-  }
+            $table->enum('role', ['1', '2']);
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
 }
